@@ -18,16 +18,9 @@ pipeline {
                 echo "Build Successfully!"
             }
         }
-        stage('Docker push') {
+        stage('Login') {
             steps {
-                echo "push successfully!"
-                script {
-                    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'staging') {
-                         bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
-                         bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                         bat 'docker push 0f0f0f0f/springboot-demo:latest '
-                    }
-                }
+                bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
             }
         }
     }
