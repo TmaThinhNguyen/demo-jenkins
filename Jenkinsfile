@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-    		DOCKERHUB_CREDENTIALS=credentials('dockerHub')
+    		dockerhub=credentials('dockerhub')
     	}
     stages {
         stage('Clone') {
@@ -18,14 +18,15 @@ pipeline {
                 echo "Build Successfully!"
             }
         }
-        stage('Login') {
-            steps {
-                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
         stage('Docker push') {
+            when {
+                branch: "master"
+            }
             steps {
-                bat 'docker push nnthinh/springboot-demo:latest'
+                bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
+                bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+
+                bat 'docker push 0f0f0f0f/springboot-demo:latest '
             }
         }
     }
