@@ -1,7 +1,5 @@
 pipeline {
-
     agent none stages {
-
         stage('Clone Repo') {
                 // for display purposes
                 // Get some code from a Github repository
