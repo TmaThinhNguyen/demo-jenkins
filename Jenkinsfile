@@ -21,9 +21,7 @@ pipeline {
         stage('Docker push') {
             steps {
                 script {
-                    if (env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'staging') {
-                         echo 'This is not master or staging'
-                    } else {
+                    if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'staging') {
                          bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
                          bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
                          bat 'docker push 0f0f0f0f/springboot-demo:latest '
