@@ -1,5 +1,4 @@
-pipeline {
-    agent none stages {
+node {
         stage('Clone Repo') {
                 // for display purposes
                 // Get some code from a Github repository
@@ -35,6 +34,5 @@ pipeline {
 
         }
 
-    }
 
 }
