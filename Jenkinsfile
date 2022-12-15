@@ -20,6 +20,7 @@ pipeline {
         }
         stage('Docker push') {
             steps {
+                echo "push successfully!"
                 script {
                     if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'staging') {
                          bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
