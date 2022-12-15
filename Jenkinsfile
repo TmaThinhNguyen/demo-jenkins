@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps{
-                sh 'docker build -t nnthinh/springboot-demo:latest .'
+                bat 'docker build -t nnthinh/springboot-demo:latest .'
                 echo "Build Successfully!"
             }
         }
