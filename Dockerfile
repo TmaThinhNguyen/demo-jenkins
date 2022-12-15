@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine-jre AS build
+FROM maven:3.6.3-jdk-11-openj9 AS build
 
 WORKDIR /opt/app
 
