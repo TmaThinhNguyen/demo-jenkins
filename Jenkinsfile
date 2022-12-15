@@ -28,8 +28,8 @@ pipeline {
         stage('Docker push') {
             agent any
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'thewizard999', usernameVariable: '0f0f0f0f')]){
-                    sh "docker login -u ${env.0f0f0f0f} -p ${env.thewizard999}"
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                    sh 'docker push nnthinh/springboot-demo: latest'
                 }
 
