@@ -6,16 +6,6 @@ node {
                 credentialsId: 'springdeploy-user',
                 branch: 'master'
         }
-        stage('Maven Install') {
-                agent {
-                    docker {
-                        image 'maven 3.6.0'
-                    }
-                }
-                steps {
-                    sh 'mvn clean install'
-                }
-        }
         stage('Docker Build') {
                 agent any
                 steps{
