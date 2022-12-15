@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment {
-    		dockerhub=credentials('dockerhub')
+    		registry = "0f0f0f0f/nnthinh"
+    		registryCredential = 'dockerhub'
+    		dockerImage = ''
     	}
     stages {
         stage('Clone') {
@@ -14,14 +16,22 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                bat 'docker build -t nnthinh/springboot-demo:latest .'
-                echo "Build Successfully!"
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
         stage('Login') {
             steps {
-                bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                echo "Push Successfully!"
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
+                }
+            }
+        }
+        stage('Cleaning up') {
+            steps {
+                bat "docker rmi $registry:$BUILD_NUMBER"
             }
         }
     }
