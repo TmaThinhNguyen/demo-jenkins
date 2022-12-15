@@ -1,9 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage('build') {
+        stage('Clone') {
             steps {
-                echo "Hello World!"
+                git url: 'https://github.com/TmaThinhNguyen/demo-jenkins.git',
+                credentialsId: 'springdeploy-user',
+                branch: 'master',
+                echo "Clone successfully!"
             }
         }
     }
