@@ -1,25 +1,42 @@
-node{
-    def WORKSPACE = "/var/lib/jenkins/workspace/springboot-deploy"
-    def dockerImageTag = "springboot-deploy${env.BUILD_NUMBER}"
+pipeline {
 
-    try{
-        stage('Clone Repo'){
-                       // for display purposes
-                       // Get some code from a Github repository
-                       git url: 'https://github.com/TmaThinhNguyen/demo-jenkins.git',
-                           credentialsId: 'springdeploy-user',
-                           branch: 'master'
+    agent none stages {
+
+        stage('Clone Repo') {
+                // for display purposes
+                // Get some code from a Github repository
+                git url: 'https://github.com/TmaThinhNguyen/demo-jenkins.git',
+                credentialsId: 'springdeploy-user',
+                branch: 'master'
         }
-        stage('Build docker'){
-                       dockerImage = docker.build("springboot-deploy:${env.BUILD_NUMBER}")
+        stage('Maven Install') {
+                agent {
+                    docker {
+                        image 'maven 3.6.0'
+                    }
+                }
+                steps {
+                    sh 'mvn clean install'
+                }
         }
-        stage('Build docker'){
-                      echo "Docker Image Tag Name: ${dockerImage}"
-                      sh "docker stop springboot-deploy || true && docker rm springboot-deploy || true"
-                      sh "docker run --name springboot-deploy -d -p 8081:8080 springboot-deploy:${env.BUILD_NUMBER}"
+        stage('Docker Build') {
+                agent any
+                steps{
+                    sh 'docker build -t nnthinh/springboot-demo:latest .'
+                }
+        }
+        stage('Docker push') {
+            agent any
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'thewizard999', usernameVariable: '0f0f0f0f')]){
+                    sh "docker login -u ${env.0f0f0f0f} -p ${env.thewizard999}"
+                   sh 'docker push nnthinh/springboot-demo: latest'
+                }
+
+            }
+
         }
 
-    }catch(e){
-        throw e
     }
+
 }
