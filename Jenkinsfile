@@ -19,14 +19,16 @@ pipeline {
             }
         }
         stage('Docker push') {
-            when {
-                branch: "master"
-            }
             steps {
-                bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
-                bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-
-                bat 'docker push 0f0f0f0f/springboot-demo:latest '
+                script {
+                    if (env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'staging') {
+                         echo 'This is not master or staging'
+                    } else {
+                         bat 'docker tag nnthinh/springboot-demo:latest 0f0f0f0f/springboot-demo:latest '
+                         bat 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                         bat 'docker push 0f0f0f0f/springboot-demo:latest '
+                    }
+                }
             }
         }
     }
