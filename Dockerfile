@@ -8,6 +8,8 @@ RUN mvn clean install -DskipTests
 
 FROM adoptopenjdk/openjdk11:alpine-jre
 
+VOLUME /tmp
+
 COPY --from=build /opt/app/target*.jar app.jar
 
 ENV PORT 8081
