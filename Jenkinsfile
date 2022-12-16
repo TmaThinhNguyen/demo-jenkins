@@ -17,8 +17,8 @@ pipeline {
         }
         stage('Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'thewizard999', usernameVariable: '0f0f0f0f')]) {
-                        bat "docker login -u ${env.0f0f0f0f} -p ${env.thewizard999}"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
+                        bat "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
                         bat 'docker push springboot-demo:latest'
                 }
                 echo "Login Successfully!"
