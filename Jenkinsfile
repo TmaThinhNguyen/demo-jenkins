@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    environment {
-    		registry = "0f0f0f0f/nnthinh"
-    		registryCredential = 'dockerhub'
-    		dockerImage = ''
-    	}
     stages {
         stage('Clone') {
             steps {
@@ -16,18 +11,17 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                script {
-                    bat 'docker build -t app.jar .'
-                }
+                bat 'docker build -t nnthinh/springboot-demo:latest .'
+                echo "Build Successfully!"
             }
         }
         stage('Login') {
             steps {
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'thewizard999', usernameVariable: '0f0f0f0f')]) {
+                        bat "docker login -u ${env.0f0f0f0f} -p ${env.thewizard999}"
+                        bat 'docker push nnthinh/springboot-demo:latest'
                 }
+                echo "Login Successfully!"
             }
         }
 
