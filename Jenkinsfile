@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                bat 'docker build -t nnthinh/springboot-demo:latest .'
+                bat 'docker build -t springboot-demo:latest .'
                 echo "Build Successfully!"
             }
         }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'thewizard999', usernameVariable: '0f0f0f0f')]) {
                         bat "docker login -u ${env.0f0f0f0f} -p ${env.thewizard999}"
-                        bat 'docker push nnthinh/springboot-demo:latest'
+                        bat 'docker push springboot-demo:latest'
                 }
                 echo "Login Successfully!"
             }
