@@ -17,7 +17,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    bat 'docker build -t app.jar'
+                    bat 'docker build -t app.jar .'
                 }
             }
         }
