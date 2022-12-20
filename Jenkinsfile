@@ -32,11 +32,11 @@ pipeline {
         stage('SSH Server') {
             steps {
                 sshagent (credentials: ['ssh-remote']) {
-                    bat 'ssh -o StrictHostKeyChecking=no -l cloudbees 54.87.132.102 uname -a'
+                    sh 'ssh -o StrictHostKeyChecking=no -l cloudbees 54.87.132.102 uname -a'
                 }
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                   bat "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                   bat 'docker pull 0f0f0f0f/springboot:latest'
+                   sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                   sh 'docker pull 0f0f0f0f/springboot:latest'
                 }
             }
         }
