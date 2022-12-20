@@ -31,9 +31,7 @@ pipeline {
         }
         stage('SSH Server') {
             steps {
-                sshagent (credentials: ['ssh-remote']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l cloudbees 54.87.132.102 uname -a'
-                }
+                ssshPublisher(publishers: [sshPublisherDesc(configName: 'my-ssh-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'mvn clean install', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'pom.xml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
                    sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
                    sh 'docker pull 0f0f0f0f/springboot:latest'
