@@ -9,6 +9,11 @@ pipeline {
                 echo "Clone successfully!"
             }
         }
+        stage('Maven Build') {
+                steps {
+                     bat 'mvn -B -DskipTests clean package'
+                }
+        }
         stage('Docker Build') {
             steps {
                 bat 'docker build -t 0f0f0f0f/springboot:latest .'
