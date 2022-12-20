@@ -29,6 +29,11 @@ pipeline {
                 echo "Login Successfully!"
             }
         }
+        stage('SSH Server') {
+            steps {
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'my-ssh-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'mvn -B -DskipTests clean package', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'pom.xml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
 
     }
 }
