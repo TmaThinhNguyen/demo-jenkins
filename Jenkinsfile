@@ -31,10 +31,10 @@ pipeline {
         }
         stage('SSH Server') {
             steps {
-                ssshPublisher(publishers: [sshPublisherDesc(configName: 'my-ssh-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'mvn clean install', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'pom.xml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'my-ssh-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'mvn clean install', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'pom.xml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                   sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                   sh 'docker pull 0f0f0f0f/springboot:latest'
+                   bat "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
+                   bat 'docker pull 0f0f0f0f/springboot:latest'
                 }
             }
         }
