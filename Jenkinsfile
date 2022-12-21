@@ -1,4 +1,4 @@
-pipeline {
+pipeline     {
     agent any
     stages {
         stage('Clone') {
@@ -31,10 +31,8 @@ pipeline {
         }
         stage('SSH Server') {
             steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'my-ssh-server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'mvn clean install', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'pom.xml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                   bat "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                   bat 'docker pull 0f0f0f0f/springboot:latest'
+                sshagent(['54.87.132.102']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -l cloudbees 192.168.1.106 touch text.txt'
                 }
             }
         }
