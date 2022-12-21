@@ -37,6 +37,8 @@ pipeline     {
                         bat "ssh -o StrictHostKeyChecking=no -l ec2-user 52.90.112.87 docker pull 0f0f0f0f/springboot:latest"
                     }
                     echo "ssh Successfully!"
+                }
             }
+        }
     }
 }
