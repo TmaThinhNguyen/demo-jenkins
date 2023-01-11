@@ -29,16 +29,6 @@ pipeline     {
                 echo "Login Successfully!"
             }
         }
-        stage('SSH EC2') {
-            steps{
-                sshagent(credentials: ['SSH-EC2']){
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerhubPassword', usernameVariable: 'dockerhubUser')]) {
-                        bat "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPassword}"
-                        bat "ssh -o StrictHostKeyChecking=no -l ec2-user 52.90.112.87 docker pull 0f0f0f0f/springboot:latest"
-                    }
-                    echo "ssh Successfully!"
-                }
-            }
-        }
+
     }
 }
